@@ -1,0 +1,44 @@
+# Compiled output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
+# System files
+.DS_Store
+Thumbs.db
+.angular/cache/16.2.3/angular-webpack/cb5bf0de7e3f20bfe7f55c4cbd87bdc1d20a3052/2.pack
+.angular/cache/16.2.3/angular-webpack/cb5bf0de7e3f20bfe7f55c4cbd87bdc1d20a3052/4.pack
+.angular/cache/16.2.3/angular-webpack/cb5bf0de7e3f20bfe7f55c4cbd87bdc1d20a3052/index.pack
+.angular/cache/16.2.3/angular-webpack/cb5bf0de7e3f20bfe7f55c4cbd87bdc1d20a3052/index.pack.old
