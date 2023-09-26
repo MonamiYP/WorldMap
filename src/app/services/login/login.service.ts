@@ -26,4 +26,9 @@ export class LoginService {
   login(username: string, password: string): any {
     return this.http.post<any>('http://127.0.0.1:5000/login', {username, password}, httpOptions);
   }
+
+  logout() {
+    console.log("logout");
+    return;
+  }
 }

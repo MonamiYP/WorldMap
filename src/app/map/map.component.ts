@@ -1,5 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { LoginService } from '../services/login/login.service';
 import * as L from 'leaflet';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-map',
@@ -9,7 +11,10 @@ import * as L from 'leaflet';
 export class MapComponent implements OnInit, AfterViewInit {
   private map!: L.Map;
 
-  constructor() { }
+  constructor(
+    private loginService: LoginService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
   }
@@ -22,5 +27,10 @@ export class MapComponent implements OnInit, AfterViewInit {
     const baseMapURl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     this.map = L.map('map').setView([51.505, -0.09], 5);
     L.tileLayer(baseMapURl).addTo(this.map);
+  }
+
+  onLogout() {
+    this.loginService.logout();
+    this.router.navigateByUrl('/');
   }
 }
