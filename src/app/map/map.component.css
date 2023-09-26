@@ -2,8 +2,17 @@
     background-color: white;
     position: relative;
     height: 675px;
+    width: 75%;
     padding: 10px;
     margin: 20px;
+    margin-right: 0;
+}
+
+.map-info {
+    width: 25%;
+    margin: 20px;
+    margin-left: 0;
+    padding: 20px;
 }
 
 #map{
