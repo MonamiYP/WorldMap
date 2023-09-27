@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
-  isUsernameValid: boolean = false;
   error: any = null;
 
   constructor(
@@ -22,33 +21,21 @@ export class LoginComponent implements OnInit {
     this.loginService.errorSubject.subscribe((errorMessage: any) => {this.error = errorMessage;})
   }
 
-  validateUsername(): void {
-    this.isUsernameValid = false;
-    const pattern = RegExp("^[A-Za-z0-9_][A-Za-z0-9_]{5,29}$");
-    if (pattern.test(this.username)) {
-      this.isUsernameValid = true;
-    }
-  }
-
   onKey(event: any, type: string) {
     if (type == 'username') {
       this.username = event.target.value;
-      this.validateUsername();
     } else if (type == 'password') {
       this.password = event.target.value;      
     }
   }
 
   onLogin() {
-    if (this.isUsernameValid) {
-      this.loginService.login(this.username, this.password).subscribe(
-        (data:any) => {
-          console.log(data);
-        }, (err: { error: { message: any; }; }) => {
-          this.error = err.error.message;}
-      );
-      console.log("valid");
-      this.router.navigateByUrl('/map');
-    }
+    this.loginService.login(this.username, this.password).subscribe(
+      (data:any) => {
+        console.log(data);
+      }, (err: { error: { message: any; }; }) => {
+        this.error = err.error.message;}
+    );
+    this.router.navigateByUrl('/map');
   }
 }
