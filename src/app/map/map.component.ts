@@ -3,7 +3,7 @@ import { LoginService } from '../services/login/login.service';
 import * as L from 'leaflet';
 import { Router } from '@angular/router';
 
-import geoJsondata from '../../assets/countries.geo.json';
+import geoJsondata from '../../assets/map.geo.json';
 
 @Component({
   selector: 'app-map',
@@ -46,7 +46,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   private countryBorders() {
-    var geoJSONPath = '../assets/countries.geo.json';
+    var geoJSONPath = '../assets/map.geo.json';
     fetch(geoJSONPath).then(function(response) {
       return response.json();
     }).then((data) => {
@@ -65,19 +65,19 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   onCountryClick(e:any) {
-    this.countryName = e.target.feature.properties.name;
+    this.countryName = e.target.feature.properties.A3;
     this.errorCountrySearch = false;
   }
 
   onEachFeature(feature:any, layer:L.Layer) {
-    this.layers[feature.properties.name] = layer;
+    this.layers[feature.properties.A3] = layer;
     layer.on({ mouseover: this.highlightFeature, mouseout: this.resetHighlight.bind(this), click: this.onCountryClick.bind(this) });
   }
 
   pickCountry(country_name: string) {
     this.errorCountrySearch = true;
     for (let country of geoJsondata.features) {
-      if(country_name == country['properties']['name']) {
+      if(country_name == country['properties']['A3']) {
         this.errorCountrySearch = false;
         this.countryName = country_name;
         this.map.fitBounds(this.layers[country_name].getBounds());
