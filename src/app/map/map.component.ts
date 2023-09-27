@@ -3,7 +3,7 @@ import { LoginService } from '../services/login/login.service';
 import * as L from 'leaflet';
 import { Router } from '@angular/router';
 
-import geoJsondata from '../../assets/custom.geo.json';
+import geoJsondata from '../../assets/countries.geo.json';
 
 @Component({
   selector: 'app-map',
@@ -14,6 +14,8 @@ export class MapComponent implements OnInit, AfterViewInit {
   private map!: L.Map;
   geojson: any;
   countryName: string = '';
+  errorCountrySearch: boolean = false;
+  layers: any = {};
   
   baseLayers: Record<string, L.TileLayer> = {
     'Dark' : L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
@@ -44,7 +46,7 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   private countryBorders() {
-    var geoJSONPath = '../assets/custom.geo.json';
+    var geoJSONPath = '../assets/countries.geo.json';
     fetch(geoJSONPath).then(function(response) {
       return response.json();
     }).then((data) => {
@@ -63,12 +65,25 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   onCountryClick(e:any) {
-    //this.map.fitBounds(e.target.getBounds())
     this.countryName = e.target.feature.properties.name;
+    this.errorCountrySearch = false;
   }
 
   onEachFeature(feature:any, layer:L.Layer) {
+    this.layers[feature.properties.name] = layer;
     layer.on({ mouseover: this.highlightFeature, mouseout: this.resetHighlight.bind(this), click: this.onCountryClick.bind(this) });
+  }
+
+  pickCountry(country_name: string) {
+    this.errorCountrySearch = true;
+    for (let country of geoJsondata.features) {
+      if(country_name == country['properties']['name']) {
+        this.errorCountrySearch = false;
+        this.countryName = country_name;
+        this.map.fitBounds(this.layers[country_name].getBounds());
+        break;
+      }
+    }
   }
 
   onLogout() {
