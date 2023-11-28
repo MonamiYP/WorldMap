@@ -61,8 +61,8 @@ export class MapComponent implements OnInit, AfterViewInit {
     var geoJSONPath = '../assets/map.geo.json';
     fetch(geoJSONPath).then(function(response) {
       return response.json();
-    }).then((data) => {
-      this.geojson = L.geoJSON(data, {
+    }).then(res => {
+      this.geojson = L.geoJSON(res, {
         style: { fillColor: 'black', weight: 1, opacity: 0, color: 'white', dashArray: '3', fillOpacity: 0 },
         onEachFeature: this.onEachFeature.bind(this)}).addTo(this.map);
     });
@@ -78,8 +78,8 @@ export class MapComponent implements OnInit, AfterViewInit {
 
   onCountryClick(e:any) {
     var cca3 = e.target.feature.properties.A3;
-    this.RESTService.getCountryFROMA3(cca3).subscribe((data) => {
-      this.countryName = Object(data)["name"]["common"];
+    this.RESTService.getCountryFROMA3(cca3).subscribe(res => {
+      this.countryName = Object(res)["name"]["common"];
     });
     this.errorCountrySearch = false;
   }
@@ -90,16 +90,17 @@ export class MapComponent implements OnInit, AfterViewInit {
   }
 
   pickCountry(input: string) {
-    this.RESTService.getA3FROMCountry(input).subscribe((data) => {
-      var cca3 = Object(data)[0]["cca3"];
+    this.RESTService.getA3FROMCountry(input).subscribe(res => {
+      var cca3 = Object(res)[0]["cca3"];
 
       for (let country of geoJsondata.features) {
         if(cca3 == country['properties']['A3']) {
-          this.RESTService.getCountryFROMA3(cca3).subscribe((data) => {
-            this.countryName = Object(data)["name"]["common"];
+          this.RESTService.getCountryFROMA3(cca3).subscribe(res => {
+            this.countryName = Object(res)["name"]["common"];
+            this.map.fitBounds(this.layers[cca3].getBounds());
           });
           this.errorCountrySearch = false;
-          this.map.fitBounds(this.layers[cca3].getBounds());
+          
           break;
         }
         this.errorCountrySearch = true;
